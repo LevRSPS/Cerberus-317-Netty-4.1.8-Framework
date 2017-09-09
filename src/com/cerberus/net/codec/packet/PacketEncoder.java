@@ -17,13 +17,14 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 	@Override
 	protected void encode(ChannelHandlerContext arg0, Packet arg1, ByteBuf arg2) throws Exception {
 		final int opcode = arg1.getOpcode();
-
+		
+		
 		if (opcode > 0) {
 			arg2.writeByte(opcode);
 
 			Type type = arg1.getType();
 			int length = arg1.getSize();
-
+			
 			switch (type) {
 			case VARIABLE:
 				arg2.writeByte(length);
@@ -34,6 +35,7 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 			default:
 				break;
 			}
+			//System.out.println("opcodee: "+opcode);
 			arg2.writeBytes(arg1.getBuffer());
 		} else {
 			arg2.writeBytes(arg1.getBuffer());

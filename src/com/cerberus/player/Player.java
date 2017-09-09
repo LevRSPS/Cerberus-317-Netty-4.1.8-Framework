@@ -25,8 +25,9 @@ public class Player {
 	private Position position; 
 	
 	private Collection<Flags> updateFlags = new ArrayList<>();
-
 	
+	private boolean positionUpdate;
+
 	public Player(Session session) {
 		this.setSession(session);
 	}
@@ -81,5 +82,13 @@ public class Player {
 		}
 		
 		packet.sendPacket(this);
+	}
+
+	public boolean needsPositionUpdate() {
+		return positionUpdate;
+	}
+
+	public void setPositionUpdate(boolean positionUpdate) {
+		this.positionUpdate = positionUpdate;
 	}
 }

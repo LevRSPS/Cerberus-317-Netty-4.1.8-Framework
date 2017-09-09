@@ -143,7 +143,7 @@ public final class PacketBuilder {
         if(!buffer.hasArray()) {
 			throw new UnsupportedOperationException("The ByteBuf implementation must support array() for bit usage.");
 		}
-		
+		System.out.println("num bits: " + numBits);
 		int bytes = (int) Math.ceil((double) numBits / 8D) + 1;
 		buffer.ensureWritable((bitPosition + 7) / 8 + bytes);
 		

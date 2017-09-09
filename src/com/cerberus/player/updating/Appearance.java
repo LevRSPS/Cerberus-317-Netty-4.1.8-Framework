@@ -133,13 +133,13 @@ public class Appearance {
 	 */
 	public void set() {
 		if (isMale()) {
-			look[HEAD] = 3;
+			look[HEAD] = 0;
 			look[CHEST] = 18;
 			look[ARMS] = 26;
-			look[HANDS] = 34;
-			look[LEGS] = 38;
+			look[HANDS] = 33;
+			look[LEGS] = 36;
 			look[FEET] = 42;
-			look[BEARD] = 14;
+			look[BEARD] = 10;
 		} else {
 			look[HEAD] = 48;
 			look[CHEST] = 57;
@@ -149,11 +149,11 @@ public class Appearance {
 			look[FEET] = 80;
 			look[BEARD] = 57;
 		}
-		look[HAIR_COLOUR] = 2;
-		look[TORSO_COLOUR] = 14;
-		look[LEG_COLOUR] = 5;
-		look[FEET_COLOUR] = 4;
-		look[SKIN_COLOUR] = 0;
+		look[HAIR_COLOUR] = 5;
+		look[TORSO_COLOUR] = 8;
+		look[LEG_COLOUR] = 8;
+		look[FEET_COLOUR] = 5;
+		look[SKIN_COLOUR] = 1;
 		player.getUpdateFlags().add(Flags.APPEARANCE);
 	}
 	

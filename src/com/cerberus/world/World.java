@@ -8,6 +8,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.cerberus.net.packet.in.PacketHandler;
 import com.cerberus.player.Player;
+import com.cerberus.player.updating.PlayerUpdating;
 
 /**
  * A class that represents the whole server (players, player that need to be removed, etc)
@@ -32,7 +33,7 @@ public class World {
 			$it.remove();
 		}
 		
-		//PlayerUpdating.updatePlayers();
+		PlayerUpdating.updatePlayers();
 		
 		for (Player player : players) {
 			if (player == null) {

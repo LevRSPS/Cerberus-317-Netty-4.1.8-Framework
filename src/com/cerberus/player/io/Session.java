@@ -9,6 +9,7 @@ import com.cerberus.model.Position;
 import com.cerberus.net.codec.packet.PacketDecoder;
 import com.cerberus.net.codec.packet.PacketEncoder;
 import com.cerberus.net.packet.Packet;
+import com.cerberus.net.packet.out.impl.MapRegion;
 import com.cerberus.net.packet.out.impl.Message;
 import com.cerberus.player.Player;
 import com.cerberus.world.World;
@@ -54,7 +55,7 @@ public class Session {
 		player.setUsername(packet.getUsername());
 		player.setPassword(packet.getPassword());
 		player.setPlayerRights(packet.getPlayerRights());
-		player.setPosition(new Position(3220, 3220));
+		player.setPosition(new Position(3220, 3220));//hmmmm
 		
 		ByteBuf login = Unpooled.buffer();
 		login.writeByte(packet.getResponse());
@@ -68,10 +69,10 @@ public class Session {
 		channel.pipeline().replace("decoder", "decoder", new PacketDecoder());
 		channel.pipeline().addLast("encoder", new PacketEncoder());
 		
+		player.sendPacket(new Message("Welcome to Cerberus 317!"));	
+		player.sendPacket(new MapRegion(player.getPosition()));
+		player.setPositionUpdate(true);
 		player.getUpdateFlags().add(Flags.APPEARANCE);
-		
-		player.sendPacket(new Message("Welcome to Cerberus 317!"));
-		//TODO: Replace the login decoder with a packet decoder and add a packet encoder to the pipeline
 		
 	}
 	public void setPlayer(Player player) {
