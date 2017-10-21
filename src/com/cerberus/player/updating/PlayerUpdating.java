@@ -42,7 +42,25 @@ public class PlayerUpdating {
 		PacketBuilder otherPacket = new PacketBuilder(81, Type.VARIABLE_SHORT);
 
 		otherPacket.initializeAccess(AccessType.BIT);
+		
+		updatePositions(player, otherPacket);
 
+		updatePlayer(player, updatePacket);
+
+		otherPacket.putBits(8, 0);
+
+		if (updatePacket.buffer().writerIndex() > 0) {
+			otherPacket.putBits(11, 2047);
+			otherPacket.initializeAccess(AccessType.BYTE);
+			otherPacket.putBytes(updatePacket.buffer());
+		} else {
+			otherPacket.initializeAccess(AccessType.BYTE);
+		}
+
+		player.getSession().getChannel().writeAndFlush(otherPacket.toPacket());
+	}
+
+	public static void updatePositions(Player player, PacketBuilder otherPacket) {
 		if (player.needsPositionUpdate()) {
 			otherPacket.putBits(1, 1);
 			otherPacket.putBits(2, 3);
@@ -60,22 +78,7 @@ public class PlayerUpdating {
 				otherPacket.putBits(1, 0);
 			}
 		}
-
-		updatePlayer(player, updatePacket);
-
-		otherPacket.putBits(8, 0);
-
-		if (updatePacket.buffer().writerIndex() > 0) {
-			otherPacket.putBits(11, 2047);
-			otherPacket.initializeAccess(AccessType.BYTE);
-			otherPacket.putBytes(updatePacket.buffer());
-		} else {
-			otherPacket.initializeAccess(AccessType.BYTE);
-		}
-
-		player.getSession().getChannel().writeAndFlush(otherPacket.toPacket());
 	}
-
 	public static void updatePlayer(Player player, PacketBuilder builder) {
 		int mask = 0;
 

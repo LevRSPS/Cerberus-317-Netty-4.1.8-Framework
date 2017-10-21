@@ -26,6 +26,8 @@ public class Player {
 	
 	private Collection<Flags> updateFlags = new ArrayList<>();
 	
+	private Collection<Player> localPlayers = new ArrayList<>();
+	
 	private boolean positionUpdate;
 
 	public Player(Session session) {
@@ -90,5 +92,13 @@ public class Player {
 
 	public void setPositionUpdate(boolean positionUpdate) {
 		this.positionUpdate = positionUpdate;
+	}
+
+	public Collection<Player> getLocalPlayers() {
+		return localPlayers;
+	}
+
+	public void setLocalPlayers(Collection<Player> localPlayers) {
+		this.localPlayers = localPlayers;
 	}
 }

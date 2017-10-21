@@ -1,13 +1,14 @@
 package com.cerberus.world;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.cerberus.net.packet.in.PacketHandler;
 import com.cerberus.player.Player;
+import com.cerberus.player.serializing.SerializePlayer;
 import com.cerberus.player.updating.PlayerUpdating;
 
 /**
@@ -16,7 +17,7 @@ import com.cerberus.player.updating.PlayerUpdating;
  *
  */
 public class World {
-	public static final Collection<Player> players = new ArrayList<>();
+	public static final List<Player> players = new ArrayList<>();
 	
 	public static final Queue<Player> toRemove = new ConcurrentLinkedQueue<>();
 	
@@ -27,6 +28,12 @@ public class World {
 			Player player = $it.next();
 			if (player == null) {
 				break;
+			}
+			
+			try {
+				new SerializePlayer(player).serialize();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 			
 			players.remove(player);

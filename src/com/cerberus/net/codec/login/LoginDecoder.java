@@ -139,7 +139,7 @@ public class LoginDecoder extends ByteToMessageDecoder {
 			String username = ByteBufUtils.getString(in);
 			String password = ByteBufUtils.getString(in);
 			
-			arg2.add(new LoginInformation(username, password, decryptor, new ISAACCipher(seed), 2, 2, 0));
+			arg2.add(new LoginInformation(username, password, decryptor, new ISAACCipher(seed), 2, 0, 0));
 			break;
 		}
 	}

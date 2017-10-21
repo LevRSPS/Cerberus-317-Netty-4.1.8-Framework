@@ -1,9 +1,11 @@
 package com.cerberus.player.io;
 
+import java.io.IOException;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 import com.cerberus.login.LoginInformation;
+import com.cerberus.login.LoginResponses;
 import com.cerberus.model.Flags;
 import com.cerberus.model.Position;
 import com.cerberus.net.codec.packet.PacketDecoder;
@@ -12,6 +14,7 @@ import com.cerberus.net.packet.Packet;
 import com.cerberus.net.packet.out.impl.MapRegion;
 import com.cerberus.net.packet.out.impl.Message;
 import com.cerberus.player.Player;
+import com.cerberus.player.serializing.DeserializePlayer;
 import com.cerberus.world.World;
 
 import io.netty.buffer.ByteBuf;
@@ -51,16 +54,25 @@ public class Session {
 		return player;
 	}
 	
-	public void finish(LoginInformation packet) {
+	public void finish(LoginInformation packet) throws IOException {
 		player.setUsername(packet.getUsername());
 		player.setPassword(packet.getPassword());
 		player.setPlayerRights(packet.getPlayerRights());
-		player.setPosition(new Position(3220, 3220));//hmmmm
+		player.setPosition(new Position(3220, 3220));
+		
+		LoginResponses response = LoginResponses.getResponse(packet);
 		
 		ByteBuf login = Unpooled.buffer();
-		login.writeByte(packet.getResponse());
-		login.writeByte(packet.getPlayerRights());
-		login.writeByte(packet.getFlagged());
+		
+		if (response == LoginResponses.SUCCESS) {
+			DeserializePlayer.deserialize(player);
+			login.writeByte(packet.getResponse());
+			login.writeByte(packet.getPlayerRights());
+			login.writeByte(packet.getFlagged());
+		} else {
+			login.writeByte(response.getResponse());
+		}
+
 		channel.writeAndFlush(login);
 		
 		if (!World.players.contains(player))

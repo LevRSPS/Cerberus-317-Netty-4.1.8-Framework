@@ -22,6 +22,10 @@ public class Server {
 	
 	private final static Logger logger = Logger.getLogger("Cerberus");
 	
+	public static boolean serverUpdating = false;
+	
+	public final static int MAX_PLAYERS = 2000;
+	
 	public static void main(String args[]) {
 		try {
 			bootstrap.group(loopgroup).channel(NioServerSocketChannel.class).childHandler(new PipelineInitializer()).bind(Constants.PORT);
